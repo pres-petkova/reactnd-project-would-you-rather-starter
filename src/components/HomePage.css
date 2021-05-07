@@ -1,0 +1,22 @@
+.HomePageButton {
+    color:#4a4063;
+    background-color: #7eb7ab4d;
+    display: inline-block;
+    padding: 0.7em 3em;
+    border: 0.16em solid #ffffff;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.HomePageButton:hover {
+    color: #dddddd;
+    border-color: #dddddd
+}
+
+.NavbarContainer{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}

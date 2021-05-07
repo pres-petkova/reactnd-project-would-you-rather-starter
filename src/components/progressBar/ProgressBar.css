@@ -1,0 +1,8 @@
+.ProgressBar {
+  background-color: #61fbbf6e;
+  max-width: 300px;
+}
+
+.ProgressBarColored {
+  background-color: rgb(149 192 184);
+}
