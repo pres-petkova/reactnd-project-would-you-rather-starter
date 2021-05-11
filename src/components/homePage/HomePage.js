@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import Question from "./question/Question.js";
-import Navbar from "../components/navbar/Navbar";
+import Question from "../question/Question.js";
+import Navbar from "../navbar/Navbar";
 import "./HomePage.css";
+import { getLoggedUser } from "../../utils/user.js";
 
 class HomePage extends Component {
   constructor(props) {
@@ -22,20 +23,26 @@ class HomePage extends Component {
   };
 
   render() {
-    const { loggedUser, questions, users } = this.props;
+    const loggedUser = getLoggedUser();
+    const { questions, users } = this.props;
 
-    const questionsToDisplay = questions.filter((q) => {
-      const { optionOne, optionTwo } = q;
-      const { answered } = this.state;
+    if (!questions.length || !loggedUser || !users.length)
+      return <div>Loading...</div>;
 
-      const allAnswers = optionOne.votes.concat(optionTwo.votes);
+    const questionsToDisplay = questions
+      .filter((q) => {
+        const { optionOne, optionTwo } = q;
+        const { answered } = this.state;
 
-      if (answered) {
-        return allAnswers.includes(loggedUser);
-      } else {
-        return !allAnswers.includes(loggedUser);
-      }
-    });
+        const allAnswers = optionOne.votes.concat(optionTwo.votes);
+
+        if (answered) {
+          return allAnswers.includes(loggedUser.id);
+        } else {
+          return !allAnswers.includes(loggedUser.id);
+        }
+      })
+      .sort((q1, q2) => q2.timestamp - q1.timestamp);
 
     return (
       <div>
@@ -53,7 +60,7 @@ class HomePage extends Component {
         </div>
         <div>
           {questionsToDisplay.map((q) => {
-            const author = users.find(u => u.id === q.author);
+            const author = users.find((u) => u.id === q.author);
 
             return <Question key={q.id} question={{ ...q }} author={author} />;
           })}
@@ -64,12 +71,11 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = (store) => {
-  const { account, questions, users } = store;
+  const { questions, users } = store;
 
   return {
-    loggedUser: account.loggedUser,
     questions: questions.questions,
-    users: users.users
+    users: users.users,
   };
 };
 

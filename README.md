@@ -98,3 +98,14 @@ Your code will talk to the database via 4 methods:
 ## Contributing
 
 This repository is the starter code for *all* Udacity students. Therefore, we most likely will not accept pull requests. For details, check out [CONTRIBUTING.md](https://github.com/udacity/reactnd-project-would-you-rather-starter/blob/master/CONTRIBUTING.md).
+
+## Installing 
+
+Use npm to launch locally.
+
+## Description
+
+A web app that lets a user play the "Would-You-Rather" game - where you're given a question and two options of which you must choose only one - chosing both is not an option. 
+
+Users can answer pre-existing questions as well as create new questions, see which questions they have and haven't answered, see how other people have voted and see the ranking of ratings on the leaderboard.
+

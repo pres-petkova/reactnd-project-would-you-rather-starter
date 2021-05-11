@@ -8,7 +8,7 @@ class ProgressBar extends Component {
     return (
       <div className="ProgressBar">
         <div className="ProgressBarColored" style={{ width: `${percentage}%` }}>
-          {`${percentage}%`}
+          {`${percentage.toFixed(2)}%`}
         </div>
       </div>
     );

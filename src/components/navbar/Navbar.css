@@ -39,7 +39,7 @@
   box-sizing: border-box;
   text-decoration: none;
   text-transform: uppercase;
-  
+  margin-right: 10px;
 }
 .LogOutButton:hover {
   color: #dddddd;

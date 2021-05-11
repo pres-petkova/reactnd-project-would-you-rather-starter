@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Navbar from "./navbar/Navbar";
+import Navbar from "../navbar/Navbar";
 import { connect } from "react-redux";
 import "./Leaderboard.css";
-import UserAvatar from "./UserAvatar"
+import UserAvatar from "../userAvatar/UserAvatar";
 
 class Leaderboard extends Component {
   render() {
@@ -16,7 +16,7 @@ class Leaderboard extends Component {
 
       return questionsB - questionsA;
     });
-    const {user} = this.props
+    
     return (
       <div className="LeaderboardContainer">
         <Navbar />

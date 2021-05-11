@@ -1,16 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, withRouter } from "react-router-dom";
-import QuestionDetails from "./QuestionDetails";
-import QuestionResults from "./QuestionResults";
+import { getQuestions } from "../../redux/actions/questions";
+import { getLoggedUser } from "../../utils/user";
+import QuestionDetails from "../questionDetails/QuestionDetails";
+import QuestionResults from "../questionResults/QuestionResults";
 
 class QuestionPage extends Component {
+  componentDidMount() {
+    const { questions, dispatch } = this.props;
+
+    if (!questions.length) {
+      dispatch(getQuestions());
+    }
+  }
+
   render() {
-    const { questions, user, match } = this.props;
-
-    if (!questions) return null;
-
+    const loggedUser = getLoggedUser();
+    const { questions, match } = this.props;
     const questionId = match?.params?.question_id;
+
+    if (!questions.length) return <div>Loading...</div>;
+
     const question = questions.find((q) => q.id === questionId);
 
     if (!question) return <Redirect to="/404" />;
@@ -21,7 +32,7 @@ class QuestionPage extends Component {
 
     return (
       <div>
-        {answerGroup.includes(user) ? (
+        {answerGroup.includes(loggedUser.id) ? (
           <QuestionResults question={question} />
         ) : (
           <QuestionDetails question={question} />
@@ -31,10 +42,9 @@ class QuestionPage extends Component {
   }
 }
 const mapStateToProps = (store) => {
-  const { account, questions } = store;
+  const { questions } = store;
 
   return {
-    user: account.loggedUser,
     questions: questions.questions,
   };
 };

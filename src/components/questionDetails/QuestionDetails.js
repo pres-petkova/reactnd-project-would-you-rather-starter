@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { saveAnswer } from "../redux/actions/questions";
-import Navbar from "./navbar/Navbar";
+import { saveAnswer } from "../../redux/actions/questions";
+import Navbar from "../navbar/Navbar";
 import "./QuestionDetails.css";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../userAvatar/UserAvatar";
+import { getLoggedUser } from "../../utils/user";
 
 class QuestionDetails extends Component {
   constructor(props) {
@@ -23,16 +24,19 @@ class QuestionDetails extends Component {
   }
 
   handleSubmit() {
-    const { authedUser, match, dispatch } = this.props;
+    const loggedUser = getLoggedUser();
+    const { match, dispatch } = this.props;
     const { answer } = this.state;
     const questionId = match?.params?.question_id;
 
-    dispatch(saveAnswer({ authedUser: authedUser, qid: questionId, answer }));
+    dispatch(
+      saveAnswer({ authedUser: loggedUser.id, qid: questionId, answer })
+    );
   }
 
   render() {
-    const { question, authedUser, users } = this.props;
-    if (!question) return null;
+    const { question, users } = this.props;
+    if (!question || !users.length) return <div>Loading...</div>;
 
     const questionAuthor = users.find((u) => u.id === question.author);
     const { optionOne, optionTwo } = question;
@@ -40,7 +44,7 @@ class QuestionDetails extends Component {
     return (
       <div>
         <Navbar />
-        <div className="MotherContainer">
+        <div className="Container">
           <div className="QuestionDetailsContainer">
             <UserAvatar user={questionAuthor} />
             <span>@{question.author} asks WOULD-YOU-RATHER:</span>
@@ -67,7 +71,12 @@ class QuestionDetails extends Component {
               </label>
             </div>
             <br />
-            <button className="QuestionDetailsButton" onClick={this.handleSubmit}>Submit</button>
+            <button
+              className="QuestionDetailsButton"
+              onClick={this.handleSubmit}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>
@@ -76,10 +85,9 @@ class QuestionDetails extends Component {
 }
 
 const mapStateToProps = (store) => {
-  const { account, users } = store;
+  const { users } = store;
 
   return {
-    authedUser: account.loggedUser,
     users: users.users,
   };
 };

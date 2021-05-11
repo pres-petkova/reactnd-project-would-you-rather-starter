@@ -2,20 +2,20 @@ import React, { Component } from "react";
 import { MenuItems } from "./MenuItems";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
-import { logOut } from "../../redux/actions/account";
-import { connect } from "react-redux";
+import { getLoggedUser, logoutUser } from "../../utils/user";
 import { withRouter } from "react-router-dom";
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "../userAvatar/UserAvatar";
 
 class Navbar extends Component {
   handleLogoutClick = () => {
-    const { dispatch, history } = this.props;
-    dispatch(logOut());
-    history.push("/");
+    const { history } = this.props;
+
+    logoutUser();
+    history.push("/login");
   };
 
   render() {
-    const { user } = this.props;
+    const loggedUser = getLoggedUser();
 
     return (
       <nav className="NavbarItems">
@@ -28,12 +28,12 @@ class Navbar extends Component {
             );
           })}
         </ul>
-        
+
         <div className="UserInfo">
-          <UserAvatar user={user}/>
-          <p>Hello {user.name}! </p>
+          <UserAvatar user={loggedUser} />
+          <p>Hello {loggedUser.name}! </p>
         </div>
-        
+
         <button className="LogOutButton" onClick={this.handleLogoutClick}>
           LOG OUT
         </button>
@@ -42,12 +42,4 @@ class Navbar extends Component {
   }
 }
 
-const mapStateToProps = (store) => {
-  const { account, users } = store;
-
-  return {
-    user: users.users.find((user) => user.id === account.loggedUser),
-  };
-};
-
-export default connect(mapStateToProps)(withRouter(Navbar));
+export default withRouter(Navbar);

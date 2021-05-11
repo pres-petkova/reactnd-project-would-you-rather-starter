@@ -9,6 +9,7 @@ class UserAvatar extends Component {
     return (
       <div className="Avatar">
         <img
+          alt="the user's avatar"
           src={user.avatarURL}
           width="50"
           height="50"

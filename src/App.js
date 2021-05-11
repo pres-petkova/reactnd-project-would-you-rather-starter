@@ -1,15 +1,20 @@
 import { Component } from "react";
 import "./App.css";
-import LogIn from "./components/LogIn.js";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import LogIn from "./components/login/LogIn.js";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import HomePage from "./components/HomePage.js";
-import NewQuestion from "./components/NewQuestion.js";
-import Leaderboard from "./components/Leaderboard";
-import AuthenticatedRoute from "./components/AuthenticatedRoute";
-import QuestionPage from "./components/QuestionPage.js";
-import NotFoundPage from "./components/NotFoundPage";
+import HomePage from "./components/homePage/HomePage";
+import NewQuestion from "./components/newQuestion/NewQuestion.js";
+import Leaderboard from "./components/leaderboard/Leaderboard";
+import AuthenticatedRoute from "./components/authenticatedRoute/AuthenticatedRoute";
+import QuestionPage from "./components/questionPage/QuestionPage.js";
+import NotFoundPage from "./components/notFoundPage/NotFoundPage";
 class App extends Component {
   render() {
     return (
@@ -29,7 +34,8 @@ class App extends Component {
             <Route path="/404">
               <NotFoundPage />
             </Route>
-          </Switch> 
+            <Redirect to="login" />
+          </Switch>
         </Router>
       </Provider>
     );

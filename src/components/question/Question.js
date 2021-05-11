@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import "./Question.css";
-import UserAvatar from "../UserAvatar"
+import UserAvatar from "../userAvatar/UserAvatar"
 
 const CLASSNAME = "Question";
 
@@ -14,7 +14,7 @@ class Question extends Component {
   render() {
     const { question, author } = this.props;
     const { optionOne, optionTwo } = question;
-
+   
     return (
       <div className="QuestionContainer">
       

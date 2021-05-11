@@ -3,38 +3,41 @@ import { connect } from "react-redux";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import "./LogIn.css";
-import { logIn } from "../redux/actions/account";
+import { setLoggedUser } from "../../utils/user";
 import { withRouter } from "react-router-dom";
-import { getQuestions } from "../redux/actions/questions.js";
-import { getUsers } from "../redux/actions/users";
+import { getUsers } from "../../redux/actions/users";
 
 class LogIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedUser: undefined,
+      selectedUserId: undefined,
     };
   }
+
   componentDidMount() {
     const { dispatch } = this.props;
+
     dispatch(getUsers());
   }
 
   handleUserSelect = (event) => {
     this.setState({
-      selectedUser: event.value,
+      selectedUserId: event.value,
     });
   };
 
   handleLoginClick = () => {
-    const { selectedUser } = this.state;
-    const { dispatch, history } = this.props;
+    const { selectedUserId } = this.state;
+    const { users, history, location } = this.props;
+    const { from } = location?.state ?? { from: "/home" };
 
-    if (!selectedUser) return;
+    if (!selectedUserId) return;
 
-    dispatch(logIn(selectedUser));
-    dispatch(getQuestions());
-    history.push("/home");
+    const selectedUser = users.find((u) => u.id === selectedUserId);
+
+    setLoggedUser(selectedUser);
+    history.push(from);
   };
 
   render() {
@@ -63,6 +66,7 @@ class LogIn extends Component {
 
 const mapStateToProps = (store) => {
   const { users } = store;
+
   return {
     users: users.users,
   };
