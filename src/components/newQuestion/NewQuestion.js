@@ -3,7 +3,6 @@ import Navbar from "../navbar/Navbar";
 import { withRouter } from "react-router-dom";
 import { saveQuestion } from "../../redux/actions/questions";
 import "./NewQuestion.css";
-import { getLoggedUser } from "../../utils/user";
 import { connect } from "react-redux";
 
 class NewQuestion extends Component {
@@ -26,13 +25,12 @@ class NewQuestion extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const user = getLoggedUser();
 
-    const { history, dispatch } = this.props;
+    const { history, dispatch, loggedUser } = this.props;
 
     dispatch(
       saveQuestion({
-        author: user.id,
+        author: loggedUser.id,
         optionOneText: this.state.optionOne,
         optionTwoText: this.state.optionTwo,
       })
@@ -77,4 +75,12 @@ class NewQuestion extends Component {
   }
 }
 
-export default connect()(withRouter(NewQuestion));
+const mapStateToProps = (store) => {
+  const { users } = store;
+
+  return {
+    loggedUser: users.user,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(NewQuestion));

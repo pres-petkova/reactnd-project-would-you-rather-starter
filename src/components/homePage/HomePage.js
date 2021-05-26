@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import Question from "../question/Question.js";
 import Navbar from "../navbar/Navbar";
 import "./HomePage.css";
-import { getLoggedUser } from "../../utils/user.js";
 
 class HomePage extends Component {
   constructor(props) {
@@ -23,8 +22,7 @@ class HomePage extends Component {
   };
 
   render() {
-    const loggedUser = getLoggedUser();
-    const { questions, users } = this.props;
+    const { questions, users, loggedUser } = this.props;
 
     if (!questions.length || !loggedUser || !users.length)
       return <div>Loading...</div>;
@@ -76,6 +74,7 @@ const mapStateToProps = (store) => {
   return {
     questions: questions.questions,
     users: users.users,
+    loggedUser: users.user,
   };
 };
 

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { Route, Redirect, withRouter } from "react-router-dom";
-import { getLoggedUser } from "../../utils/user";
+import { connect } from "react-redux";
 import LoadedData from "../loadedData/LoadedData";
 
 class AuthenticatedRoute extends Component {
   render() {
-    const loggedUser = getLoggedUser();
-    const { path, Component, location } = this.props;
+    const { path, Component, location, loggedUser } = this.props;
 
     if (!loggedUser) {
       return (
@@ -29,4 +28,12 @@ class AuthenticatedRoute extends Component {
   }
 }
 
-export default withRouter(AuthenticatedRoute);
+const mapStateToProps = (store) => {
+  const { users } = store;
+
+  return {
+    loggedUser: users.user,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(AuthenticatedRoute));

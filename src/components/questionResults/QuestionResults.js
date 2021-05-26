@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { getLoggedUser } from "../../utils/user";
+import { connect } from "react-redux";
 import Navbar from "../navbar/Navbar";
 import ProgressBar from "../progressBar/ProgressBar";
 import "./QuestionResults.css";
 
 class QuestionResults extends Component {
   render() {
-    const loggedUser = getLoggedUser();
-    const { question } = this.props;
+    const { question, loggedUser } = this.props;
 
     const totalVotes =
       question.optionOne.votes.length + question.optionTwo.votes.length;
@@ -47,4 +46,12 @@ class QuestionResults extends Component {
   }
 }
 
-export default QuestionResults;
+const mapStateToProps = (store) => {
+  const { users } = store;
+
+  return {
+    loggedUser: users.user,
+  };
+};
+
+export default connect(mapStateToProps)(QuestionResults);

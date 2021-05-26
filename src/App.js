@@ -31,9 +31,9 @@ class App extends Component {
               path="/questions/:question_id"
               Component={QuestionPage}
             />
-            <Route path="/404">
-              <NotFoundPage />
-            </Route>
+            <AuthenticatedRoute path="/404" Component={NotFoundPage} />
+              {/* <NotFoundPage />
+            </Route> */}
             <Redirect to="login" />
           </Switch>
         </Router>

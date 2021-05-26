@@ -5,7 +5,6 @@ import { saveAnswer } from "../../redux/actions/questions";
 import Navbar from "../navbar/Navbar";
 import "./QuestionDetails.css";
 import UserAvatar from "../userAvatar/UserAvatar";
-import { getLoggedUser } from "../../utils/user";
 
 class QuestionDetails extends Component {
   constructor(props) {
@@ -24,8 +23,7 @@ class QuestionDetails extends Component {
   }
 
   handleSubmit() {
-    const loggedUser = getLoggedUser();
-    const { match, dispatch } = this.props;
+    const { match, dispatch, loggedUser } = this.props;
     const { answer } = this.state;
     const questionId = match?.params?.question_id;
 
@@ -89,6 +87,7 @@ const mapStateToProps = (store) => {
 
   return {
     users: users.users,
+    loggedUser: users.user,
   };
 };
 

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, withRouter } from "react-router-dom";
 import { getQuestions } from "../../redux/actions/questions";
-import { getLoggedUser } from "../../utils/user";
 import QuestionDetails from "../questionDetails/QuestionDetails";
 import QuestionResults from "../questionResults/QuestionResults";
 
@@ -16,8 +15,7 @@ class QuestionPage extends Component {
   }
 
   render() {
-    const loggedUser = getLoggedUser();
-    const { questions, match } = this.props;
+    const { questions, loggedUser, match } = this.props;
     const questionId = match?.params?.question_id;
 
     if (!questions.length) return <div>Loading...</div>;
@@ -42,10 +40,11 @@ class QuestionPage extends Component {
   }
 }
 const mapStateToProps = (store) => {
-  const { questions } = store;
+  const { questions, users } = store;
 
   return {
     questions: questions.questions,
+    loggedUser: users.user,
   };
 };
 

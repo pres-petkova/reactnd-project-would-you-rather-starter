@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import { MenuItems } from "./MenuItems";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
-import { getLoggedUser, logoutUser } from "../../utils/user";
 import { withRouter } from "react-router-dom";
 import UserAvatar from "../userAvatar/UserAvatar";
+import { logoutUser } from "../../redux/actions/users";
+import { connect } from "react-redux";
 
 class Navbar extends Component {
   handleLogoutClick = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
 
-    logoutUser();
+    dispatch(logoutUser());
     history.push("/login");
   };
 
   render() {
-    const loggedUser = getLoggedUser();
+    const { loggedUser } = this.props;
 
     return (
       <nav className="NavbarItems">
@@ -42,4 +43,12 @@ class Navbar extends Component {
   }
 }
 
-export default withRouter(Navbar);
+const mapStateToProps = (store) => {
+  const { users } = store;
+
+  return {
+    loggedUser: users.user,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(Navbar));

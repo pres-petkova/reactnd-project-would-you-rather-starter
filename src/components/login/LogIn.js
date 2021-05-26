@@ -3,9 +3,8 @@ import { connect } from "react-redux";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import "./LogIn.css";
-import { setLoggedUser } from "../../utils/user";
 import { withRouter } from "react-router-dom";
-import { getUsers } from "../../redux/actions/users";
+import { getUsers, setLoggedUser } from "../../redux/actions/users";
 
 class LogIn extends Component {
   constructor(props) {
@@ -27,16 +26,16 @@ class LogIn extends Component {
     });
   };
 
-  handleLoginClick = () => {
+  handleLoginClick = async () => {
     const { selectedUserId } = this.state;
-    const { users, history, location } = this.props;
+    const { users, history, location, dispatch } = this.props;
     const { from } = location?.state ?? { from: "/home" };
 
     if (!selectedUserId) return;
 
     const selectedUser = users.find((u) => u.id === selectedUserId);
 
-    setLoggedUser(selectedUser);
+    await dispatch(setLoggedUser(selectedUser));
     history.push(from);
   };
 

@@ -16,24 +16,27 @@ class Leaderboard extends Component {
 
       return questionsB - questionsA;
     });
-    
+
     return (
       <div className="LeaderboardContainer">
         <Navbar />
         <div>
           {users.map((user) => (
-            <div className="LeaderboardUser">
-              
-              <span className="UserName"> {user.name}  </span> 
-              <div className="AvatarPlacement"> <UserAvatar user={user}></UserAvatar> </div>
-              
+            <div className="LeaderboardUser" key={user.id}>
+              <span className="UserName"> {user.name} </span>
+              <div className="AvatarPlacement">
+                {" "}
+                <UserAvatar user={user}></UserAvatar>{" "}
+              </div>
+
               <p>{`answered: ${Object.entries(user.answers).length} `}</p>
-                <p>{`asked: ${Object.entries(user.questions).length}`}</p>
-                <p className="Score">{` SCORE: ${
+              <p>{`asked: ${Object.entries(user.questions).length}`}</p>
+              <p className="Score">
+                {` SCORE: ${
                   Object.entries(user.answers).length +
                   Object.entries(user.questions).length
-                }`}{" "}</p>
-               
+                }`}{" "}
+              </p>
             </div>
           ))}
         </div>
